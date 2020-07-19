@@ -1,15 +1,19 @@
 package com.example.facebooklogin;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.app.AlertDialog;
+//import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+//import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-import android.content.Intent;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.AccessToken;
@@ -33,6 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+
 
 public class MainActivity extends AppCompatActivity {
     // https://www.youtube.com/watch?v=q0jAFmB-wkU&t=433s 참고
@@ -181,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
-
+//                    1`1212
                     @Override
                     public void onFailure(Call<LoginResult2> call, Throwable t) {
                         Toast.makeText(MainActivity.this, t.getMessage(),

@@ -1,14 +1,16 @@
-package com.example.facebooklogin.taps;
+package com.example.facebooklogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.example.facebooklogin.R;
 import com.example.facebooklogin.fragmentClasses.Fragment_First;
 import com.example.facebooklogin.fragmentClasses.Fragment_Second;
 import com.example.facebooklogin.fragmentClasses.Fragment_Third;
+import com.example.facebooklogin.taps.SectionPageAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -23,7 +25,7 @@ public class MainActivity2 extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        @SuppressLint("WrongViewCast") TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
     }
     public void setupViewPager(ViewPager viewPager) {

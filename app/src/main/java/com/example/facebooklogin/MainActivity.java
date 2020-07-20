@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.example.facebooklogin.taps.MainActivity2;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private TextView txtName;
     private CallbackManager callbackManager;
-
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -135,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
                 txtName.setText(first_name+" "+last_name);
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.dontAnimate();
+
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                intent.putExtra("user_name", first_name+" "+last_name);
+                startActivity(intent);
+
             }
         });
         Bundle parameters = new Bundle();
@@ -174,12 +179,15 @@ public class MainActivity extends AppCompatActivity {
 
                             LoginResult2 result = response.body();
 
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                            assert result != null;
-                            builder1.setTitle(result.getName());
-                            builder1.setMessage(result.getEmail());
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+//                            assert result != null;
+//                            builder1.setTitle(result.getName());
+//                            builder1.setMessage(result.getEmail());
+//                            builder1.show();
 
-                            builder1.show();
+                            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                            intent.putExtra("user_name", result.getName());
+                            startActivity(intent);
 
                         } else if (response.code() == 404) {
                             Toast.makeText(MainActivity.this, "Wrong Credentials",

@@ -3,10 +3,14 @@
     package="com.example.facebooklogin">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
 
     <application
         android:allowBackup="true"
@@ -14,7 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.ImageClassification"
         android:usesCleartextTraffic="true">
 
         <provider
@@ -24,13 +28,11 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
-
+                android:resource="@xml/provider_paths" />
         </provider>
 
-
-        <activity android:name=".taps.MainActivity2">
-        </activity>
+        <activity android:name=".taps.MainActivity2"></activity>
+        <activity android:name=".tap3Activity.Tab3Main"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,10 +61,13 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".taps.uploadpicture"/>
-        <activity android:name=".taps.FullImageActivity"/>
-        <receiver android:name=".taps.FullImageActivity"></receiver>
-        <receiver android:name=".taps.MyBroadcastReceiver" android:enabled="true"></receiver>
+        <activity android:name=".uploadPicture" />
+        <activity android:name=".FullImageActivity"/>
+
+        <receiver android:name=".FullImageActivity"></receiver>
+        <receiver
+            android:name=".taps.MyBroadcastReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>

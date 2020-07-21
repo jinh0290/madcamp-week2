@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.facebooklogin"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -20,6 +20,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    aaptOptions {
+        noCompress "tflite"
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -27,6 +37,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     testImplementation 'junit:junit:4.12'
@@ -40,6 +51,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    implementation('org.tensorflow:tensorflow-lite:0.0.0-nightly') { changing = true }
+    implementation('org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly') { changing = true }
+    implementation('org.tensorflow:tensorflow-lite-support:0.0.0-nightly') { changing = true }
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.google.truth:truth:1.0.1'
 
     implementation 'com.facebook.android:facebook-login:4.40.0'
 

@@ -16,20 +16,19 @@
 
         <GridView
             android:id="@+id/gridView"
-            android:background="#90B0E0"
-            android:listSelector="@drawable/gridview_selector"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:background="#FAF5C9"
             android:columnWidth="110dp"
+            android:listSelector="@drawable/gridview_selector"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
             tools:layout_editor_absoluteY="1dp" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fab_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

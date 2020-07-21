@@ -43,7 +43,6 @@ public class MainActivity2 extends AppCompatActivity {
         bundle.putString("email", email);
         Fragment_First fragment_first = new Fragment_First();
         fragment_first.setArguments(bundle);
-        Toast.makeText(MainActivity2.this, "hello " + email, Toast.LENGTH_SHORT).show();
         adapter.addFragment(fragment_first, "Addressbook");
         adapter.addFragment(new Fragment_Second(), "Gallery");
         adapter.addFragment(new Fragment_Third(), "Do not Try");

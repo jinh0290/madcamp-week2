@@ -17,14 +17,20 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.facebooklogin.ApiService_img;
+import com.example.facebooklogin.GridViewAdapter;
 import com.example.facebooklogin.R;
+import com.example.facebooklogin.fragmentClasses.Fragment_Second;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
@@ -52,8 +58,9 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class FullImageActivity extends AppCompatActivity implements View.OnClickListener{
 
-    ApiService apiService;
+    ApiService_img apiService;
     Uri picUri;
+    private GridViewAdapter gridViewAdapter;
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
@@ -63,14 +70,14 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
     Bitmap mBitmap;
     TextView textView;
     ImageView imageView;
+    RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_image);
 
-
-        fabCamera = findViewById(R.id.fab);
+        fabCamera = findViewById(R.id.fab_camera);
         fabUpload = findViewById(R.id.fabUpload);
         textView = findViewById(R.id.textView);
         fabCamera.setOnClickListener(this);
@@ -83,11 +90,24 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
         Intent i = getIntent();
 
         final int position = i.getExtras().getInt("id");
+        GridViewAdapter adapter = new GridViewAdapter(this);
 
-        ImageAdapter adapter = new ImageAdapter(this);
 
         imageView = (ImageView) findViewById(R.id.imageView);
+
         imageView.setImageResource(adapter.images[position]);
+
+//        imageView.setImageResource(adapter.getView(position,imageView,parent));
+
+
+//        imageAdapter.setImageNames(imageNames);
+//        imageAdapter.notifyDataSetChanged();
+//        recyclerView.setAdapter(imageAdapter);
+
+//        imageView.setImageResource(new ImageAdapter(this, getNamesFromServer()));
+//        ImageAdapter imageAdapter_full = new ImageAdapter()
+
+
 //        Log.d(String.valueOf(position),"position is this");
 //
 //        Log.d(String.valueOf(adapter.images[position]),"setImageResource is this");
@@ -95,11 +115,20 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
 
         imageView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
+
+//                Intent i = new Intent(getActivity().getApplicationContext(), FullImageActivity.class);
+//                i.putExtra("id",position);
+//                startActivity(i);
+
+//                Intent i = new Intent(getApplicationContext(), Fragment_Second.class);
+//                i.putExtra("id",position);
+//                startActivity(i);
                 finish();
             }
         });
 
     }
+
 
     private void askPermissions() {
         permissions.add(CAMERA);
@@ -119,7 +148,7 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
     private void initRetrofitClient() {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
-        apiService = new Retrofit.Builder().baseUrl("http://192.249.19.241:5680").client(client).build().create(ApiService.class);
+        apiService = new Retrofit.Builder().baseUrl("http://192.249.19.241:5680").client(client).build().create(ApiService_img.class);
     }
 
 
@@ -189,6 +218,7 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
             ImageView imageView = findViewById(R.id.imageView);
@@ -342,14 +372,14 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
                         textView.setTextColor(Color.BLUE);
                     }
 
-                    Toast.makeText(getApplicationContext(), response.code() + " ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),  "Uploaded Successfully!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     textView.setText("Uploaded Failed!");
                     textView.setTextColor(Color.RED);
-                    Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();
                 }
             });
@@ -365,7 +395,7 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
+            case R.id.fab_camera:
                 startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
                 break;
 
@@ -375,6 +405,7 @@ public class FullImageActivity extends AppCompatActivity implements View.OnClick
                 else {
                     Toast.makeText(getApplicationContext(), "Success upload server", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
 
 

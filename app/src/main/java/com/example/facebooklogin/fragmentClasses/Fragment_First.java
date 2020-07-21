@@ -63,6 +63,8 @@ public class Fragment_First extends Fragment {
     ArrayList<Dummy> dummyDataList= new ArrayList<Dummy>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+
+
         View view = inflater.inflate(R.layout.fragment_first, container, false);
         email = getArguments().getString("email");
 
@@ -80,14 +82,14 @@ public class Fragment_First extends Fragment {
 
         listView.setAdapter(myAdapter);
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView parent, View v, int position, long id){
-//                Toast.makeText(getActivity().getApplicationContext(),
-//                        myAdapter.getItem(position).getName(),
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){
+                Toast.makeText(getActivity().getApplicationContext(),
+                        myAdapter.getItem(position).getName(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
 
         btn_insert = (FloatingActionButton) view.findViewById(R.id.btn_insert);
         btn_insert.setOnClickListener(new View.OnClickListener() {
@@ -125,16 +127,17 @@ public class Fragment_First extends Fragment {
                     @Override
                     public void onResponse(Call<CustomersResponse> call, Response<CustomersResponse> response) {
                         if (response.code() == 200) {
-                            Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
+
                             CustomersResponse result = response.body();
                             ArrayList<Customer> CustomerList = result.getContacts();
+                            dummyDataList.clear();
                             for (int i=0; i < CustomerList.size(); i++) {
                                  Customer customer = CustomerList.get(i); //error 떠
                                  String nameContact = customer.getNameContact();
                                  String phoneNum = customer.getPhoneNum();
                                 dummyDataList.add(new Dummy(nameContact, phoneNum,""));
                             }
-                            Toast.makeText(getContext(), Integer.toString(dummyDataList.size()), Toast.LENGTH_SHORT).show();
+
 
 
 
@@ -164,38 +167,45 @@ public class Fragment_First extends Fragment {
     //   dummyDataList에 추가
     public void get_phones()
     {
-        // 전부 가져오는 코드 (똑같음)
-        String json;
-        try
-        {
-            InputStream is = getActivity().getAssets().open("a.json");
 
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("email", email);
 
-            json = new String(buffer, "UTF-8");
-            JSONArray jsonArray = new JSONArray(json);
+        Call<CustomersResponse> call = retrofitInterface.initializePhone(map);
 
-            for(int i =0; i<jsonArray.length();i++)
-            {
-                JSONObject obj = jsonArray.getJSONObject(i);
-                String Name = jsonArray.getJSONObject(i).getString("name");
-                String Phonenum = jsonArray.getJSONObject(i).getString("phone");
-                String Email = jsonArray.getJSONObject(i).getString("email");
+        call.enqueue(new Callback<CustomersResponse>() {
+            @Override
+            public void onResponse(Call<CustomersResponse> call, Response<CustomersResponse> response) {
+                if (response.code() == 200) {
 
-                dummyDataList.add(new Dummy(Name,Phonenum,Email));
+                    CustomersResponse result = response.body();
+                    ArrayList<Customer> CustomerList = result.getContacts();
+                    dummyDataList.clear();
+                    for (int i=0; i < CustomerList.size(); i++) {
+                        Customer customer = CustomerList.get(i); //error 떠
+                        String nameContact = customer.getNameContact();
+                        String phoneNum = customer.getPhoneNum();
+                        dummyDataList.add(new Dummy(nameContact, phoneNum,""));
+                    }
+
+
+                } else if (response.code() == 404) {
+                    Toast.makeText(getActivity(), "Error 404",
+                            Toast.LENGTH_LONG).show();
+                } else if (response.code() == 400) {
+                    Toast.makeText(getActivity(), "Error 400",
+                            Toast.LENGTH_LONG).show();
+                }
+
             }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch(JSONException e)
-        {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onFailure(Call<CustomersResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        });
 
 
 

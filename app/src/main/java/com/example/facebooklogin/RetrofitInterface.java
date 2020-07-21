@@ -22,4 +22,7 @@ public interface RetrofitInterface {
     @POST("/insert")
     Call<CustomersResponse> insertPhone(@Body HashMap<String, String> map); // email, nameContact, phoneNum, password, name
 
+    @POST("/initialize")
+    Call<CustomersResponse> initializePhone(@Body HashMap<String, String> map); // email, nameContact, phoneNum, password, name
+
 }

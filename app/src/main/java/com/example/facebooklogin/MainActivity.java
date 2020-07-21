@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtName;
     private CallbackManager callbackManager;
 
+
+    // retrofit이 보내줌
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://192.249.19.242:8380";
@@ -64,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // change design of continue button
-//                EditText editText = (EditText) findViewById(R.id.editText);
-//                String message = editText.getText().toString();
-//                intent.putExtra(EXTRA_MESSAGE, message);
-//                startActivity(intent);
 
             }
             @Override
@@ -135,9 +132,10 @@ public class MainActivity extends AppCompatActivity {
                 txtName.setText(first_name+" "+last_name);
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.dontAnimate();
+                Toast.makeText(MainActivity.this, first_name+" "+last_name + "님 안녕하세요.", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                intent.putExtra("user_name", first_name+" "+last_name);
+                intent.putExtra("email", first_name+" "+last_name);
                 startActivity(intent);
 
             }
@@ -169,24 +167,21 @@ public class MainActivity extends AppCompatActivity {
                 map.put("email", emailEdit.getText().toString());
                 map.put("password", passwordEdit.getText().toString());
 
+                // 보냄
                 Call<LoginResult2> call = retrofitInterface.executeLogin(map);
 
                 call.enqueue(new Callback<LoginResult2>() {
                     @Override
                     public void onResponse(Call<LoginResult2> call, Response<LoginResult2> response) {
-
+                        // 응답
                         if (response.code() == 200) {
 
                             LoginResult2 result = response.body();
 
-//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-//                            assert result != null;
-//                            builder1.setTitle(result.getName());
-//                            builder1.setMessage(result.getEmail());
-//                            builder1.show();
+                            Toast.makeText(MainActivity.this, result.getName() + "님 안녕하세요.", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                            intent.putExtra("user_name", result.getName());
+                            intent.putExtra("email", result.getEmail());
                             startActivity(intent);
 
                         } else if (response.code() == 404) {
@@ -195,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
-//                    1`1212
                     @Override
                     public void onFailure(Call<LoginResult2> call, Throwable t) {
                         Toast.makeText(MainActivity.this, t.getMessage(),
@@ -243,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this,
                                     "Already registered", Toast.LENGTH_LONG).show();
                         }
-
                     }
 
                     @Override

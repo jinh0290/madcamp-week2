@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".taps.FullImageActivity">
 
-    <RelativeLayout
+
+
+    <LinearLayout
         android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +31,7 @@
             android:layout_centerInParent="true"
             android:background="#000000"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -51,6 +53,13 @@
 
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        app:srcCompat="@android:drawable/ic_menu_add"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
